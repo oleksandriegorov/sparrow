@@ -1,0 +1,104 @@
+[project]
+name = "sparrow-framework"
+version = "1.0.0"
+description = "Sparrow Framework - Document AI processing framework with multiple agents"
+readme = "README.MD"
+license = { text = "Apache-2.0" }
+requires-python = "==3.10.4"
+authors = [
+    { name = "Sparrow Team", email = "info@sparrow.dev" }
+]
+keywords = ["ai", "document-processing", "ocr", "llm", "agents"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.10",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+# Minimal core dependencies - environment-specific deps are handled separately
+dependencies = []
+
+[project.optional-dependencies]
+# Sparrow Parse environment dependencies (matches requirements_sparrow_parse.txt)
+sparrow-parse = [
+    "python-multipart",
+    "rich",
+    "typer[all]",
+    "fastapi==0.115.12",
+    "uvicorn[standard]",
+    "sparrow-parse==1.1.2",
+    "genson==1.3.0",
+    "jsonschema==4.23.0",
+    "python-dotenv",
+    "python-box",
+    "torchvision",
+    "oracledb==3.1.0",
+]
+
+# Instructor environment dependencies (matches requirements_instructor.txt)
+instructor = [
+    "ollama==0.2.1",
+    "python-multipart",
+    "yfinance==0.2.40",
+    "instructor==1.3.5",
+    "python-box",
+    "PyYAML",
+    "rich",
+    "typer[all]",
+    "fastapi==0.111.1",
+    "uvicorn[standard]",
+    "numpy==1.26.4",
+]
+
+# OCR service dependencies (matches sparrow-data/ocr/requirements.txt)
+ocr = [
+    "pdf2image==1.17.0",
+    "torch==2.7.0",
+    "torchvision",
+    "torchaudio",
+    "datasets==3.6.0",
+    "paddleocr==3.0.0",
+    "paddlepaddle==3.0.0",
+    "pillow==11.2.1",
+    "python-multipart",
+    "fastapi==0.115.12",
+    "uvicorn[standard]",
+]
+
+# UI dependencies (matches sparrow-ui/shell/requirements.txt)
+ui = [
+    "gradio==5.29.0",
+    "geoip2==4.8.1",
+    "oracledb==3.1.0",
+    "pypdf==5.4.0",
+    "plotly==6.0.1",
+]
+
+[project.urls]
+Homepage = "https://github.com/katanaml/sparrow"
+Repository = "https://github.com/katanaml/sparrow"
+Documentation = "https://github.com/katanaml/sparrow/blob/main/README.MD"
+Issues = "https://github.com/katanaml/sparrow/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# Custom scripts for UV - following environment_setup.md patterns
+[tool.uv.scripts]
+# Environment setup commands using UV's native venv creation
+setup-sparrow-parse-env = "uv venv sparrow-ml/llm/.env_sparrow_parse --python 3.10.4"
+setup-instructor-env = "uv venv sparrow-ml/llm/.env_instructor --python 3.10.4"
+setup-ocr-env = "uv venv sparrow-data/ocr/.env_ocr --python 3.10.4"
+
+# Install dependencies in specific environments using UV's native commands
+install-sparrow-parse = "uv add --extra sparrow-parse --target sparrow-ml/llm/.env_sparrow_parse"
+install-instructor = "uv add --extra instructor --target sparrow-ml/llm/.env_instructor"
+install-ocr = "uv add --extra ocr --target sparrow-data/ocr/.env_ocr"
+
+# Start API services using cleaner environment references
+start-sparrow-parse = "uv run --env sparrow-ml/llm/.env_sparrow_parse -- uvicorn sparrow_ml.llm.api:app --reload"
+start-instructor = "uv run --env sparrow-ml/llm/.env_instructor -- uvicorn sparrow_ml.llm.api:app --reload"
+start-ocr = "uv run --env sparrow-data/ocr/.env_ocr -- uvicorn sparrow_data.ocr.api:app --reload"
