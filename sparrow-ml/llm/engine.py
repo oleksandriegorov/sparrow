@@ -6,6 +6,8 @@ import tempfile
 import os
 from rich import print
 
+import sys
+sys.path.insert(0,"/Users/oleksandriegorov/Documents/AI Projects/xgsc/sparrow_framework_experiments/.env_sparrow_parse/lib/python3.10/site-packages") #TODO: remove while committing into dev branch
 
 # Disable parallelism in the Huggingface tokenizers library to prevent potential deadlocks and ensure consistent behavior.
 # This is especially important in environments where multiprocessing is used, as forking after parallelism can lead to issues.
