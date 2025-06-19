@@ -351,9 +351,10 @@ class MLXInference(ModelInference):
         :param apply_annotation: Flag to apply annotations
         :return: Properly formatted messages
         """
+        print(f"{self.model_name.lower()=}")
         if "mistral" in self.model_name.lower():
             return input_data[0]["text_input"]
-        elif "qwen" in self.model_name.lower():
+        elif "qwen" in self.model_name.lower() or "gemma" in self.model_name.lower():
             if apply_annotation:
                 system_prompt = {"role": "system", "content": "You are an expert at extracting text from images. "
                                                               "For each item in the table, provide separate bounding boxes for each field. "
