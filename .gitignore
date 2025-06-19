@@ -1,5 +1,9 @@
-
 .DS_Store
+sparrow-data/ocr/.venv
+sparrow-data/ocr/output
+
+**/*.swp
+
 sparrow-ui/donut/.idea/inspectionProfiles/profiles_settings.xml
 sparrow-ui/donut/.idea/inspectionProfiles/Project_Default.xml
 sparrow-ui/donut/.idea/misc.xml
